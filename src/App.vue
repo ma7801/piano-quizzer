@@ -16,3 +16,9 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+body {
+  text-align: center; 
+}
+</style>

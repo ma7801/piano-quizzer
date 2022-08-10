@@ -2,17 +2,16 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 3</ion-title>
+        <ion-title>Chord Quiz</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Tab 3</ion-title>
+          <ion-title size="large">Chord Quiz</ion-title>
         </ion-toolbar>
       </ion-header>
-      
-      <ExploreContainer name="Tab 3 page" />
+      <ChordQuizOptions></ChordQuizOptions>
     </ion-content>
   </ion-page>
 </template>
@@ -20,10 +19,16 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import  ChordQuizOptions  from '@/components/ChordQuiz/Options.vue'
 
-export default defineComponent({
-  name: 'Tab3Page',
-  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+export default  defineComponent({
+  name: 'ChordQuiz',
+  components: { 
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonContent, 
+    IonPage,
+    ChordQuizOptions }
 });
 </script>
