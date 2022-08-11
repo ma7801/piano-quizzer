@@ -1,0 +1,20 @@
+Priority:
+Workaround for data binding on chordsChosen (doesn't work as expected with Ionic)
+
+
+
+
+
+
+
+Desired features:
+
+
+
+
+
+
+
+
+Sometime/maybe:
+-save options to local file, DB, or cookie

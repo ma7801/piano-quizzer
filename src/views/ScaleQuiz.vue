@@ -15,13 +15,13 @@
   </ion-page>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script>
+
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
 
 
-export default defineComponent({
+export default {
   name: 'ScaleQuiz',
   components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
-});
+};
 </script>
