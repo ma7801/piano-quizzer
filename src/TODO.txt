@@ -1,5 +1,8 @@
 Priority:
-Workaround for data binding on chordsChosen (doesn't work as expected with Ionic)
+Require at least one type of chord in menu (form validation)
+Skip chord doesn't reset timer & clean up
+Piano CSS
+
 
 
 

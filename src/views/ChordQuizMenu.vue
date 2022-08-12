@@ -15,10 +15,16 @@
         <ion-label>Inversions</ion-label><ion-checkbox v-model="options.inversions"></ion-checkbox>
       </ion-item>
       <ion-item>
+        <ion-label>Seconds to show chord:</ion-label><ion-input :value="options.secondsPerChord" />
+      </ion-item>
+      <ion-item>
         <ion-label>Auto advance after each chord</ion-label><ion-checkbox v-model="options.autoAdvance"></ion-checkbox>
       </ion-item>
       <ion-item v-show="options.autoAdvance">
-        <ion-input placeholder="Seconds to wait before next chord" />
+        <ion-label>Seconds to show answer:</ion-label><ion-input :value="options.secondsPerAnswer" />
+      </ion-item>
+      <ion-item>
+        <ion-label>Number of chords:</ion-label><ion-input :value="options.numberOfChords" />
       </ion-item>
     </ion-list>
   </base-layout>
@@ -45,7 +51,10 @@ export default {
       options: {
         chordsChosen: [],
         inversions: false,
-        autoAdvance: false
+        secondsPerChord: 5,
+        autoAdvance: false,
+        secondsPerAnswer: 2,
+        numberOfChords: 20
       },
       optionsString: ''
     }
