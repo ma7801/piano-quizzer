@@ -9,14 +9,14 @@
   <ion-button @click="nextChord">{{ skipOrNextText }} Chord >></ion-button>
   <ion-button @click="stopQuiz" >Stop Quiz</ion-button>
   <ion-button v-if="quizEnded" @click="stopQuiz">Return to Menu</ion-button>
-  <PianoKeys style="display: none" v-show="!chordTimerOn" :pressedKeys="curChord.notes" :formula="curChord.formula"></PianoKeys>
+  <PianoKeys :pressedKeys="curChord.notes" :formula="curChord.formula" :elapsed="!chordTimerOn"></PianoKeys>
   </base-layout>
 </template>
 
 <script>
 import { IonButton, IonProgressBar } from '@ionic/vue';
 import { getRandomChord } from '../musicData.js';
-import PianoKeys  from '../components/PianoKeys.vue';
+import  PianoKeys  from '../components/PianoKeys.vue';
 
 
 export default  {
@@ -58,7 +58,6 @@ export default  {
         // If timer is elapsed
         if (this.elapsedTime >= (this.options.secondsPerChord * 1000)) {
           
-          
           // Clear the timer, reset timer-related variables
           clearInterval(this.timer);
           this.chordTimerOn = false;
@@ -89,8 +88,9 @@ export default  {
     this.optionsString = this.optionsString.options.replace("\\", "");
     this.options = JSON.parse(this.optionsString);
   },
-  ionViewDidEnter() {
+  mounted() {
     this.nextChord();
+    
 
   }
 

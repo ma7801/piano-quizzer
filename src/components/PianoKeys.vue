@@ -1,71 +1,34 @@
 <template>
-<!--<ul class="set">
-  <li class="white b"></li>
-  <li class="black as"></li>
-  <li class="white a"></li>
-  <li class="black gs"></li>
-  <li class="white g"></li>
-  <li class="black fs"></li>
-  <li class="white f"></li>
-  <li class="white e"></li>
-  <li class="black d"></li>
-  <li class="white d"></li>
-  <li class="black"></li>
-  <li class="white c"></li>
-</ul>-->
-<div @piano-shown="test">
+<div>
 <ul class="set">
-  <li v-for="note in notes" :class="[note.name, note.color, {pressed: note.isPressed}]" :key="note.name"></li>
-  <!--
-  <li class="white f" :class="{pressed: notes.F1}"></li>
-  <li class="black gb" :class="{pressed: notes.Gb1}"></li>
-  <li class="white g" :class="{pressed: notes.G1}"></li>
-  <li class="black ab" :class="{pressed: notes.Ab1}"></li>
-  <li class="white a" :class="{pressed: notes.A1}"></li>
-  <li class="black bb" :class="{pressed: notes.Bb1}"></li>
-  <li class="white b" :class="{pressed: notes.B1}"></li>
-  <li class="white c" :class="{pressed: notes.C1}"></li>
-  <li class="black db" :class="{pressed: notes.Db1}"></li>
-  <li class="white d" :class="{pressed: notes.D1}"></li>
-  <li class="black eb" :class="{pressed: notes.Eb1}"></li>
-  <li class="white e" :class="{pressed: notes.E1}"></li>
-  <li class="white f" :class="{pressed: notes.F2}"></li>
-  <li class="black gb" :class="{pressed: notes.Gb2}"></li>
-  <li class="white g" :class="{pressed: notes.G2}"></li>
-  <li class="black ab" :class="{pressed: notes.Ab2}"></li>
-  <li class="white a" :class="{pressed: notes.A2}"></li>
-  <li class="black bb" :class="{pressed: notes.Bb2}"></li>
-  <li class="white b" :class="{pressed: notes.B2}"></li>
-  <li class="white c" :class="{pressed: notes.C2}"></li>
-  <li class="black db" :class="{pressed: notes.Db2}"></li>
-  <li class="white d" :class="{pressed: notes.D2}"></li>
-  <li class="black eb" :class="{pressed: notes.Eb2}"></li>
-  <li class="white e" :class="{pressed: notes.E2}"></li>-->
+  <li v-for="note in notes" :class="[note.name, note.color, {pressed: note.isPressed}]" :key="note.index"></li>
 </ul>
 </div>
 </template>
 
 
-
 <script>
+
 const keyboardKeys = ['F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E']
 
 export default {
-  props: ['pressedKeys', 'formula'],
-  components: { 
-    
-  },
+  props: ['pressedKeys', 'formula', 'elapsed'],
   data() {
     return {
       notes: [],
-      keys: this.pressedKeys,
-      chordFormula: this.formula
+      //curNoteInChord: 0,
+      //firstNoteIndex: 0
     }
   },
-  methods: {
-    test() {
-      console.log('it worked');
-    }
+  watch: {
+    pressedKeys() {
+      if(this.formula) {
+        console.log(this.pressedKeys);
+        console.log(this.formula);
+        /* MARK THE PRESSED KEYS HERE!!!
+        May not even need the formula anymore and the crazy algorithm I made in musicData.js ****/
+      }
+    },
   },
   mounted() {
 
@@ -85,11 +48,61 @@ export default {
           octave: 2, 
           'isPressed': false })
       }
-      
-
-
+    
     }
+
   },
+
+  methods: {
+
+/*    isPressed(note, index) {
+      return false;
+
+      var itIsPressed = false;
+
+      // If pressedKeys prop hasn't been loaded yet, just return false for now
+      if (!this.pressedKeys) {
+        return false;
+      }
+
+
+      /*if(this.curNoteInChord === 0) {
+        if (this.pressedKeys[0] === note.name) {
+          this.firstNoteIndex = index;
+          this.curNoteInChord++;
+          return true;
+        }
+      }*/
+/*
+      if(this.curNoteInChord === 0  && this.pressedKeys[0] === note.name) {
+        this.firstNoteIndex = index;
+        this.curNoteInChord++;
+        itIsPressed = true;
+      }
+      else if(this.formula.includes(index - this.firstNoteIndex)) {
+        itIsPressed = true;
+      }
+      else {
+        itIsPressed = false;
+      }
+
+      //If this is the last run through of the notes array in the v-for, reset the variables
+      if (index === this.notes.length - 1) {
+        this.curNoteInChord = 0;
+        this.firstNoteIndex = 0;
+      }
+
+      return itIsPressed;
+
+    }*/
+  },
+  computed: {
+    timerElapsed() {
+      
+      console.log(this.elapsed);
+      return this.elapsed;
+    }
+  }
 
 };
 </script>
