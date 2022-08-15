@@ -1,15 +1,12 @@
 <template>
   <base-layout page-title="Chord Quiz" backLink="/ChordQuizMenu">
+  <ion-button @click="nextChord">{{ skipOrNextText }} Chord >></ion-button>
+  <ion-button @click="stopQuiz" >Stop Quiz</ion-button>
   <h1> {{ curChord.chordDisplayName }} </h1>
   <h2 v-show="curChord.inversionDisplayName !== 'root inversion'"> {{ curChord.inversionDisplayName }} </h2>
   <ion-progress-bar v-show="chordTimerOn" :value="elapsedTime/(options.secondsPerChord * 1000)"></ion-progress-bar>
-  <h2 v-if="!chordTimerOn">Answer: {{ curChord.notes }}</h2>
-  <h2 v-if="!chordTimerOn">Answer: {{ curChord.formula }}</h2>
- 
-  <ion-button @click="nextChord">{{ skipOrNextText }} Chord >></ion-button>
-  <ion-button @click="stopQuiz" >Stop Quiz</ion-button>
-  <ion-button v-if="quizEnded" @click="stopQuiz">Return to Menu</ion-button>
-  <PianoKeys :pressedKeys="curChord.notes" :formula="curChord.formula" :elapsed="!chordTimerOn"></PianoKeys>
+  <PianoKeys v-show="!chordTimerOn" :pressedKeys="curChord.notes" :formula="curChord.formula" :elapsed="!chordTimerOn"></PianoKeys>
+ <ion-button v-if="quizEnded" @click="stopQuiz">Return to Menu</ion-button>
   </base-layout>
 </template>
 

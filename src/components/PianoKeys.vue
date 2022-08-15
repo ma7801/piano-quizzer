@@ -3,6 +3,7 @@
 <ul class="set">
   <li v-for="note in notes" :class="[note.name, note.color, {pressed: note.isPressed}]" :key="note.index"></li>
 </ul>
+<div class="noteNames"> </div>
 </div>
 </template>
 
@@ -12,21 +13,40 @@
 const keyboardKeys = ['F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E']
 
 export default {
-  props: ['pressedKeys', 'formula', 'elapsed'],
+  props: ['pressedKeys'],
   data() {
     return {
       notes: [],
-      //curNoteInChord: 0,
-      //firstNoteIndex: 0
     }
   },
   watch: {
     pressedKeys() {
-      if(this.formula) {
-        console.log(this.pressedKeys);
-        console.log(this.formula);
-        /* MARK THE PRESSED KEYS HERE!!!
-        May not even need the formula anymore and the crazy algorithm I made in musicData.js ****/
+    
+      // Loop through keyboard notes, skip first note of F (chord with leftmost F note will start on second octave)
+      var curNoteInChord = 0;
+      var intervalToNextNote = 0;
+      for(var curKey = 1; curKey < this.notes.length; curKey++) {
+
+        // If we've reached the end of the chord (pressedKeys)
+        if (curNoteInChord >= this.pressedKeys.length) {
+          // Clear any remaining pressed keys from previous chord
+          for (var key = curKey; key < this.notes.length; key++) {
+            this.notes[key].isPressed = false;
+          }
+
+          // Stop looping, we've pressed all keys in the chord
+          break;
+        }
+
+        // If the key is in the chord (pressedKeys), set isPressed to true, otherwise set it to false
+        if (this.notes[curKey].name === this.pressedKeys[curNoteInChord]) {
+          this.notes[curKey].isPressed = true;
+          curNoteInChord++;
+        }
+        else {
+          this.notes[curKey].isPressed = false;
+        }
+        
       }
     },
   },
@@ -54,47 +74,6 @@ export default {
   },
 
   methods: {
-
-/*    isPressed(note, index) {
-      return false;
-
-      var itIsPressed = false;
-
-      // If pressedKeys prop hasn't been loaded yet, just return false for now
-      if (!this.pressedKeys) {
-        return false;
-      }
-
-
-      /*if(this.curNoteInChord === 0) {
-        if (this.pressedKeys[0] === note.name) {
-          this.firstNoteIndex = index;
-          this.curNoteInChord++;
-          return true;
-        }
-      }*/
-/*
-      if(this.curNoteInChord === 0  && this.pressedKeys[0] === note.name) {
-        this.firstNoteIndex = index;
-        this.curNoteInChord++;
-        itIsPressed = true;
-      }
-      else if(this.formula.includes(index - this.firstNoteIndex)) {
-        itIsPressed = true;
-      }
-      else {
-        itIsPressed = false;
-      }
-
-      //If this is the last run through of the notes array in the v-for, reset the variables
-      if (index === this.notes.length - 1) {
-        this.curNoteInChord = 0;
-        this.firstNoteIndex = 0;
-      }
-
-      return itIsPressed;
-
-    }*/
   },
   computed: {
     timerElapsed() {
@@ -108,25 +87,13 @@ export default {
 </script>
 
 <style scoped>
-/*
-* {
-  box-sizing:border-box
-}
-*/
 
-/*
-body {
-  margin:0;
-  background:#222
-}
-*/
-
-/* Most Phones */
-@media only screen and (max-width: 500px) and (min-width: 360px) {
+/* Narrow Phones */
+@media only screen and (max-width: 359px) {
 
   ul {
     height:7em;
-    width:21.7em;
+    width:15.2em;
     margin:2em auto;
     padding:1.5em 0 0 1em;
     position:relative;
@@ -147,7 +114,7 @@ body {
 
   ul .white {
     height:5.6em;
-    width:1.4em;
+    width:1em;
     z-index:1;
     border-left:1px solid #bbb;
     border-bottom:1px solid #bbb;
@@ -156,19 +123,19 @@ body {
     background:linear-gradient(to bottom,#eee 0%,#fff 100%)
   }
 
-  ul .white #pressed {
+  .white.pressed {
     border-top:1px solid #777;
     border-left:1px solid #999;
     border-bottom:1px solid #999;
     box-shadow:2px 0 3px rgba(0,0,0,0.1) inset,-5px 5px 20px rgba(0,0,0,0.2) inset,0 0 3px rgba(0,0,0,0.2);
-    background:linear-gradient(to bottom,#fff 0%,#e9e9e9 100%)
+    background:linear-gradient(to bottom,#3880ff 0%,#5260ff 100%)
   }
 
 
 
   .black {
-    height:2.8em;
-    width:0.7em;
+    height:3.6em;
+    width:0.6em;
     margin:0 0 0 -0.25em;
     left: -0.1em;
     z-index:2;
@@ -178,16 +145,113 @@ body {
     background:linear-gradient(45deg,#222 0%,#555 100%)
   }
 
-/*
-  .black:active {
-    box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -2px 2px 3px rgba(0,0,0,0.6) inset,0 1px 2px rgba(0,0,0,0.5);
-    background:linear-gradient(to right,#444 0%,#222 100%)
+
+  .black.pressed {
+    box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -1px 1px 1px rgba(0,0,0,0.6) inset,0 1px 1px rgba(0,0,0,0.5);
+    background:linear-gradient(to bottom,#3880ff 0%,#5260ff 100%)
   }
-*/
+
 
 
   .A, .D, .G, .B, .E {
     margin: 0 0 0 -0.45em;
+  }
+
+  .Gb, .Db {
+    left: -0.25em;
+  }
+
+  .Bb, .Eb {
+    left: -0.01em;
+  }
+
+
+
+  ul li:first-child {
+    border-radius:5px 0 5px 5px
+  }
+
+  ul li:last-child {
+    border-radius:0 5px 5px 5px
+  }
+
+}
+
+/* Most phones */
+@media only screen and (max-width: 500px) and (min-width: 360px) {
+
+ul {
+    height:7em;
+    width:15.2em;
+    margin:2em auto;
+    padding:1.5em 0 0 1em;
+    position:relative;
+    border:1px solid #160801;
+    border-radius:10px;
+    /*background:linear-gradient(to bottom right,rgba(0,0,0,0.3),rgba(0,0,0,0)),url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/187/vwood.png);*/
+    background:linear-gradient(to top left,#111 0%,#444 100%);
+    box-shadow:0 0 50px rgba(0,0,0,0.5) inset,0 1px rgba(212,152,125,0.2) inset,0 5px 15px rgba(0,0,0,0.5);
+  }
+
+  li {
+    margin:0;
+    padding:0;
+    list-style:none;
+    position:relative;
+    float:left
+  }
+
+  ul .white {
+    height:5.6em;
+    width:1em;
+    z-index:1;
+    border-left:1px solid #bbb;
+    border-bottom:1px solid #bbb;
+    border-radius:0 0 2px 2px;
+    box-shadow:-1px 0 0 rgba(255,255,255,0.8) inset,0 0 5px #ccc inset,0 0 3px rgba(0,0,0,0.2);
+    background:linear-gradient(to bottom,#eee 0%,#fff 100%)
+  }
+
+  .white.pressed {
+    border-top:1px solid #777;
+    border-left:1px solid #999;
+    border-bottom:1px solid #999;
+    box-shadow:2px 0 3px rgba(0,0,0,0.1) inset,-5px 5px 20px rgba(0,0,0,0.2) inset,0 0 3px rgba(0,0,0,0.2);
+    background:linear-gradient(to bottom,#3880ff 0%,#5260ff 100%)
+  }
+
+
+
+  .black {
+    height:3.6em;
+    width:0.6em;
+    margin:0 0 0 -0.25em;
+    left: -0.1em;
+    z-index:2;
+    border:1px solid #000;
+    border-radius:0 0 1px 1px;
+    box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -5px 2px 3px rgba(0,0,0,0.6) inset,0 2px 4px rgba(0,0,0,0.5);
+    background:linear-gradient(45deg,#222 0%,#555 100%)
+  }
+
+
+  .black.pressed {
+    box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -1px 1px 1px rgba(0,0,0,0.6) inset,0 1px 1px rgba(0,0,0,0.5);
+    background:linear-gradient(to bottom,#3880ff 0%,#5260ff 100%)
+  }
+
+
+
+  .A, .D, .G, .B, .E {
+    margin: 0 0 0 -0.45em;
+  }
+
+  .Gb, .Db {
+    left: -0.25em;
+  }
+
+  .Bb, .Eb {
+    left: -0.01em;
   }
 
 
@@ -236,7 +300,7 @@ body {
     background:linear-gradient(to bottom,#eee 0%,#fff 100%)
   }
 
-  ul .white.pressed {
+  .white.pressed {
     border-top:1px solid #777;
     border-left:1px solid #999;
     border-bottom:1px solid #999;
