@@ -1,7 +1,8 @@
 Priority:
+Can't access props in PianoKeys.vue, so can't display pressedKeys on keyboard
 Require at least one type of chord in menu (form validation)
 Skip chord doesn't reset timer & clean up
-Piano CSS
+fix width of notes on piano css - C,B,E,F tops are too wide
 
 
 

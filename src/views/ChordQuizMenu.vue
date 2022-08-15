@@ -34,8 +34,6 @@
 <script>
 import { IonInput, IonCheckbox, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton } from '@ionic/vue'
 import { chords } from '../musicData.js';
-//import { useRouter } from 'vue-router';
-
 
 
 export default {
@@ -51,7 +49,7 @@ export default {
       options: {
         chordsChosen: [],
         inversions: false,
-        secondsPerChord: 5,
+        secondsPerChord: 2,
         autoAdvance: false,
         secondsPerAnswer: 2,
         numberOfChords: 20
@@ -60,9 +58,6 @@ export default {
     }
   },
   methods: {
-    startQuiz() {
-      console.log(this.options);
-    },
     chordOptionsChanged(e) {
       // Update chordsChosen - can't get data binding to work with those elements - doesn't seem to work in Ionic
 
