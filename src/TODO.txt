@@ -1,8 +1,9 @@
 Priority:
-Can't access props in PianoKeys.vue, so can't display pressedKeys on keyboard
 Require at least one type of chord in menu (form validation)
 Skip chord doesn't reset timer & clean up
 fix width of notes on piano css - C,B,E,F tops are too wide
+Get rid of main menu (or skip over it with navigation)
+Change chord quiz menu to just have "practice," "quiz," and "settings."  Settings will then be a new page with the current settings on the chord quiz page.
 
 
 
@@ -12,7 +13,7 @@ fix width of notes on piano css - C,B,E,F tops are too wide
 
 
 Desired features:
-
+Add pull to refresh
 
 
 
