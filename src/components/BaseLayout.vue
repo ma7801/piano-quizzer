@@ -23,3 +23,10 @@ export default {
   components: { IonPage, IonTitle, IonToolbar, IonButtons, IonBackButton, IonHeader, IonContent }
 };
 </script>
+
+
+<style scoped>
+ion-title {
+  margin: 0 3.5em 0 0;
+}
+</style>

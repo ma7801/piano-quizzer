@@ -6,12 +6,12 @@ import ChordQuiz from '../views/ChordQuiz.vue';
 const routes = [
   {
     path: '/',
-    redirect: '/MainMenu'
+    redirect: '/ChordQuizMenu'
   },
-  {
+  /*{
     path: '/MainMenu',
     component: MainMenu,
-  },
+  },*/
   {
     path: '/ChordQuizMenu',
     component: ChordQuizMenu

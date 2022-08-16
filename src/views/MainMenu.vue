@@ -1,4 +1,5 @@
 <template>
+<!-- NOT IMPLEMENTED YET-->
   <base-layout page-title="Piano Quizzer" back-link="/">
   <ion-list>
     <ion-item router-link="/ChordQuizMenu"><ion-img src="../img/baseline_piano_black_24dp.png"></ion-img><ion-label>Chord Quiz</ion-label></ion-item>

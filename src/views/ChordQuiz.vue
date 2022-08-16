@@ -3,7 +3,6 @@
   <ion-button @click="nextChord">{{ skipOrNextText }} Chord >></ion-button>
   <ion-button @click="stopQuiz" >Stop Quiz</ion-button>
   <h1> {{ curChord.chordDisplayName }} </h1>
-  <h2 v-show="curChord.inversionDisplayName !== 'root inversion'"> {{ curChord.inversionDisplayName }} </h2>
   <ion-progress-bar v-show="chordTimerOn" :value="elapsedTime/(options.secondsPerChord * 1000)"></ion-progress-bar>
   <PianoKeys v-show="!chordTimerOn" :pressedKeys="curChord.notes" :formula="curChord.formula" :elapsed="!chordTimerOn"></PianoKeys>
  <ion-button v-if="quizEnded" @click="stopQuiz">Return to Menu</ion-button>
@@ -37,10 +36,11 @@ export default  {
   },
   methods: {
     nextChord() {
-      if (this.timer) { 
+      if (this.elapsedTime > 0) { 
+        console.log('timer exists');
         clearInterval(this.timer);
       }
-      this.ElapsedTime = 0;
+      this.elapsedTime = 0;
 
       this.curChord = getRandomChord(this.options.chordsChosen, this.options.inversions);
       
@@ -93,3 +93,11 @@ export default  {
 
 };
 </script>
+
+
+<style scoped>
+
+ion-progress-bar {
+  margin: 0px;
+}
+</style>
