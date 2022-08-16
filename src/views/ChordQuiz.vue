@@ -3,6 +3,7 @@
   <ion-button @click="nextChord">{{ skipOrNextText }} Chord >></ion-button>
   <ion-button @click="stopQuiz" >Stop Quiz</ion-button>
   <h1> {{ curChord.chordDisplayName }} </h1>
+  <h2> {{ curChord.inversionDisplayName }}</h2>
   <ion-progress-bar v-show="chordTimerOn" :value="elapsedTime/(options.secondsPerChord * 1000)"></ion-progress-bar>
   <PianoKeys v-show="!chordTimerOn" :pressedKeys="curChord.notes" :formula="curChord.formula" :elapsed="!chordTimerOn"></PianoKeys>
  <ion-button v-if="quizEnded" @click="stopQuiz">Return to Menu</ion-button>
@@ -22,7 +23,7 @@ export default  {
   },
   data () {
     return {
-      optionsString: this.$route.params,
+      //optionsString: this.$route.params,
       options: {},
       timerElapsed: false,
       curChord: {},
@@ -79,13 +80,11 @@ export default  {
 
 
   },
-  ionViewWillEnter() {
-
-    // Cleanup parameters (remove backslashes) and convert to an object
-    this.optionsString = this.optionsString.options.replace("\\", "");
-    this.options = JSON.parse(this.optionsString);
-  },
   mounted() {
+    // Retrieve settings:
+    console.log(window.localStorage.getItem('chordQuizSettings'));
+    this.options = JSON.parse(window.localStorage.getItem('chordQuizSettings'));
+
     this.nextChord();
     
 

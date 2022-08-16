@@ -1,7 +1,11 @@
 Priority:
-Get rid of main menu (or skip over it with navigation)
-Change chord quiz menu to just have "practice," "quiz," and "settings."  Settings will then be a new page with the current settings on the chord quiz page.
-
+fix data binding in v-for in settings
+- figured out a way that works - create array of objects (see code)
+- create an object like the hard-coded one I have based on the musicData chordTypes object, but like:
+  [ {chordTypeDisplayName: 'Major 7th', chordType: 'majorSeventh', isChecked: false},
+  ...]
+Create practice quiz (will use same page as quiz just act differently - no timer, button to give answer instead)
+On first run, create default settings in window.localStorage
 
 
 

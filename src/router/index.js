@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import MainMenu from '../views/MainMenu.vue';
 import ChordQuizMenu from '../views/ChordQuizMenu.vue';
 import ChordQuiz from '../views/ChordQuiz.vue';
+import ChordQuizSettings from '../views/ChordQuizSettings.vue';
 
 const routes = [
   {
@@ -17,7 +18,11 @@ const routes = [
     component: ChordQuizMenu
   },
   {
-    path: '/ChordQuiz/:options',
+    path: '/ChordQuizSettings',
+    component: ChordQuizSettings
+  },
+  {
+    path: '/ChordQuiz',
     component: ChordQuiz
   }
 ]

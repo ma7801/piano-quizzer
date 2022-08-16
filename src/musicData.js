@@ -1,4 +1,4 @@
-export const chords = {
+export const chordTypes = {
     //"type": [key 1 chromatic distance from root, key 2 chromatic distance from root, ...]
     "major": {
         "displayName": "Major",
@@ -66,7 +66,7 @@ export function getRandomChord(chordTypes, inversionsAllowed) {
         chordDisplayName: root + " " + chords[chordType].displayName,
         notes: chordNotes.notes,
         formula: chordNotes.formula,
-        inversionDisplayName: ordinals[inversion] + ' inversion'
+        inversionDisplayName: ordinals[inversion] + (inversion !== 0 ? ' inversion' : '')
     }
 }
 
