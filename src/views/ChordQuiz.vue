@@ -3,7 +3,7 @@
   <ion-button @click="nextChord">{{ skipOrNextText }} Chord >></ion-button>
   <ion-button @click="stopQuiz" >Stop Quiz</ion-button>
   <h1> {{ curChord.chordDisplayName }} </h1>
-  <h2> {{ curChord.inversionDisplayName }}</h2>
+  <h2 v-if="this.options.inversions"> {{ curChord.inversionDisplayName }}</h2>
   <ion-progress-bar v-show="chordTimerOn" :value="elapsedTime/(options.secondsPerChord * 1000)"></ion-progress-bar>
   <PianoKeys v-show="!chordTimerOn" :pressedKeys="curChord.notes" :formula="curChord.formula" :elapsed="!chordTimerOn"></PianoKeys>
  <ion-button v-if="quizEnded" @click="stopQuiz">Return to Menu</ion-button>
@@ -32,7 +32,8 @@ export default  {
       chordTimerOn: false,
       elapsedTime: 0,
       quizEnded: false,
-      skipOrNextText: 'Skip'
+      skipOrNextText: 'Skip',
+      chordTypes: []
     }
   },
   methods: {
@@ -43,7 +44,7 @@ export default  {
       }
       this.elapsedTime = 0;
 
-      this.curChord = getRandomChord(this.options.chordsChosen, this.options.inversions);
+      this.curChord = getRandomChord(this.chordTypes, this.options.inversions);
       
       this.chordNum++;
       this.skipOrNextText = 'Skip';
@@ -71,10 +72,10 @@ export default  {
     },
     stopQuiz () {
       clearInterval(this.timer);
-      this.chordTimerOn = false;
+      /*this.chordTimerOn = false;
       this.elapsedTime = 0;
       this.quizEnded = true;
-      this.skipOrNextText = 'Next';
+      this.skipOrNextText = 'Next';*/
       this.$router.back();
     }
 
@@ -82,8 +83,18 @@ export default  {
   },
   mounted() {
     // Retrieve settings:
-    console.log(window.localStorage.getItem('chordQuizSettings'));
     this.options = JSON.parse(window.localStorage.getItem('chordQuizSettings'));
+
+
+    // Get the chord types from these options
+    console.log(this.options.chordTypesChosen);
+    for (var index in this.options.chordTypesChosen) {
+       if (this.options.chordTypesChosen[index].isChosen) {
+        this.chordTypes.push(this.options.chordTypesChosen[index].chordType);
+      }
+    }
+    console.log(this.options);
+    console.log(this.chordTypes);
 
     this.nextChord();
     

@@ -1,11 +1,10 @@
 Priority:
-fix data binding in v-for in settings
-- figured out a way that works - create array of objects (see code)
-- create an object like the hard-coded one I have based on the musicData chordTypes object, but like:
-  [ {chordTypeDisplayName: 'Major 7th', chordType: 'majorSeventh', isChecked: false},
-  ...]
+On quiz:
+- have counter for chord number/question
+- quiz over text (and disable next chord button)
+- implement auto-advance
 Create practice quiz (will use same page as quiz just act differently - no timer, button to give answer instead)
-On first run, create default settings in window.localStorage
+
 
 
 

@@ -1,5 +1,5 @@
 <template>
-  <base-layout page-title="Settings" backLink="/MainMenu">
+  <base-layout page-title="Settings" backLink="/ChordQuizMenu">
     <ion-button @click="save">Save</ion-button>
     <p class="error" v-if="errors.length">
       <strong>Please correct the following in the settings:</strong>
@@ -11,11 +11,10 @@
     <ion-list-header>Chord Types:</ion-list-header>
     <ion-list>
       <ion-item  v-for="ct in options.chordTypesChosen" :key="ct.chordType">
-        <ion-label>{{ ct.chordType }} </ion-label>
-        <ion-checkbox :value="ct.chordType"  :checked="ct.isChecked" v-model="ct.isChecked"></ion-checkbox>
+        <ion-label>{{ ct.displayName }} </ion-label>
+        <ion-checkbox :value="ct.chordType"  :checked="ct.isChosen" v-model="ct.isChosen"></ion-checkbox>
       </ion-item>
     </ion-list>
-    {{ options.chordTypesChosen }}
     <ion-item-divider></ion-item-divider>
     <ion-list-header>Other options:</ion-list-header>
     <ion-list>
@@ -41,7 +40,7 @@
 
 <script>
 import { IonInput, IonCheckbox, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton } from '@ionic/vue'
-import { chordTypes } from '../musicData.js';
+import { chords } from '../musicData.js';
 
 
 export default {
@@ -53,32 +52,20 @@ export default {
   emits: ['start'],
   data () {
     return {
-      chordTypes: {},
+      //chordTypes: {},
       options: {
-        chordTypesChosen: {},
+        chordTypesChosen: [],
         inversions: false,
-        secondsPerChord: '2',
+        secondsPerChord: '',
         autoAdvance: false,
-        secondsPerAnswer: '2',
-        numberOfChords: '20'
+        secondsPerAnswer: '',
+        numberOfChords: ''
       },
       optionsString: '',
       errors: [],
     }
   },
   methods: {
-    chordOptionsChanged(e) {
-      // Update chordsChosen - can't get data binding to work with those elements - doesn't seem to work in Ionic
-
-      if(this.options.chordsChosen.includes(e.target.value)) {
-        // If the item was previously chosen (checked), remove it from chordsChosen array
-        this.options.chordsChosen.splice(this.options.chordsChosen.indexOf(e.target.value), 1);
-      }
-      else {
-        // If item was checked, add to chordsChosen array
-        this.options.chordsChosen.push(e.target.value);
-      }
-    },
     save() {
       // Check for validation errors first
       if(this.checkErrors()) {
@@ -89,6 +76,7 @@ export default {
         this.$router.back()
       }
     },
+
     startPlaying() {
       // Check for validation errors first
       if(this.checkErrors()) {
@@ -102,6 +90,7 @@ export default {
       this.$router.push("/ChordQuiz/" + this.optionsString);
       }
     },
+
     checkErrors() {
       this.errors = [];
 
@@ -109,7 +98,7 @@ export default {
       var temp;
 
       // See if at least one of the chord types is selected
-      if(this.options.chordsChosen.length === 0 ) {
+      if(this.options.chordTypesChosen.length === 0 ) {
         this.errors.push("You must select at least one type of chord.");
         isError = true;
       }
@@ -135,36 +124,27 @@ export default {
       }
       return isError;
     },
+
+    createChordTypesChosen() {
+      // Create the chordTypes data (with values from musicData.js and default false values for 'isChosen')
+      for (var chord in chords) {
+        this.options.chordTypesChosen.push({
+          displayName: chords[chord].displayName,
+          chordType: chord,
+          isChosen: false
+        });
+      }
+    }
   },
   created() {
-    // Create the chordTypes data 
-    /*for (chord in chordTypes) {
-        this.chordTypes.push(
-    }*/
-    //this.chordTypes = chordTypes;
-
-    this.options.chordTypesChosen = [
-        {chordType: 'major', isChecked: false},
-        {chordType: 'minor', isChecked: false},
-        {chordType: 'dim', isChecked: false},
-        {chordType: 'domSeventh', isChecked: false},
-        {chordType: 'majorSeventh', isChecked: false}
-    ];
-    // Initialize chord types chosen
-    /*for(var chord in this.chordTypes) {
-      console.log(chord);
-      this.options.chordTypesChosen[chord] = false;
-
-    }*/
+    // Create the this.chordTypesChosen object
+    this.createChordTypesChosen();
   },
   mounted() {
-
-
-    console.log(this.options.chordTypesChosen);
     // Retrieve currently chosen options if they exist in localStorage
-    /*if (window.localStorage.getItem('chordQuizSettings')) {
+    if (window.localStorage.getItem('chordQuizSettings')) {
       this.options = JSON.parse(window.localStorage.getItem('chordQuizSettings'));
-    }*/
+    }
 
   }
 };

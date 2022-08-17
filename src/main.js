@@ -1,3 +1,6 @@
+// Set to false when released:
+export const dev = true;
+
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';

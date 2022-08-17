@@ -1,4 +1,4 @@
-export const chordTypes = {
+export const chords = {
     //"type": [key 1 chromatic distance from root, key 2 chromatic distance from root, ...]
     "major": {
         "displayName": "Major",
@@ -137,6 +137,42 @@ function chordToNotes(root, chordType, inversion) {
         formula: chordFormula
     }
 
+}
+
+export function createDefaultSettings() {
+    // Create the settings object
+    var settingsTemp = {
+        chordTypesChosen: getChordTypesArray(),
+        inversions: false,
+        secondsPerChord: '5',
+        autoAdvance: false,
+        secondsPerAnswer: '2',
+        numberOfChords: '20'
+    }
+
+    console.log(settingsTemp);
+
+    // Set major (index 0) chords as true for a default setting (need at least one chord type)
+    settingsTemp.chordTypesChosen[0].isChosen = true;
+
+    // Create default settings object in localStorage
+    window.localStorage.setItem('chordQuizSettings', JSON.stringify(settingsTemp));
+      
+}
+
+
+export function getChordTypesArray() {
+    var chordTypesArray = [];
+    
+    for (var chord in chords) {
+        chordTypesArray.push({
+            displayName: chords[chord].displayName,
+            chordType: chord,
+            isChosen: false
+        });
+    }
+
+    return chordTypesArray;
 }
 
 
