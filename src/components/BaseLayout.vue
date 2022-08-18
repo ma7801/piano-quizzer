@@ -6,27 +6,42 @@
             <ion-back-button :default-href="backLink"></ion-back-button>
         </ion-buttons>
         <ion-title>{{ pageTitle }} </ion-title>
+        <ion-buttons v-if="hasExitButton === 'true'" slot="end">
+          <ion-back-button class="quit" icon="" text="Quit" :default-href="backLink"></ion-back-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-        <slot />
+      <slot name="body" />
     </ion-content>
+    <ion-footer>
+      <slot name="footer" />
+    </ion-footer>
   </ion-page>
 </template>
 
 <script>
 
-import { IonPage, IonTitle, IonToolbar, IonButtons, IonBackButton, IonHeader, IonContent } from '@ionic/vue';
+import { IonPage, IonTitle, IonToolbar, IonButtons, IonBackButton, IonHeader, IonContent, IonFooter } from '@ionic/vue';
 
 export default {
-  props: ['pageTitle', 'backLink'],
-  components: { IonPage, IonTitle, IonToolbar, IonButtons, IonBackButton, IonHeader, IonContent }
+  props: ['pageTitle', 'backLink', 'hasExitButton'],
+  components: { IonPage, IonTitle, IonToolbar, IonButtons, IonBackButton, IonHeader, IonContent, IonFooter },
 };
 </script>
 
 
 <style scoped>
 ion-title {
-  margin: 0 3.5em 0 0;
+  margin: 0 -0.9em 0 0;
+}
+ion-back-button.quit {
+  background-color: var(--ion-color-tertiary);
+  color: var(--ion-color-tertiary-contrast);
+  border-radius: var(--border-radius);
+}
+
+ion-footer {
+  text-align: right;
 }
 </style>

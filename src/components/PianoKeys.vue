@@ -13,43 +13,50 @@
 const keyboardKeys = ['F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E']
 
 export default {
-  props: ['pressedKeys'],
+  props: ['pressedKeys', 'showPressedKeys'],
   data() {
     return {
       notes: [],
     }
   },
   watch: {
-    pressedKeys() {
-    
-      // Loop through keyboard notes, skip first note of F (chord with leftmost F note will start on second octave)
-      var curNoteInChord = 0;
-      var intervalToNextNote = 0;
-      for(var curKey = 1; curKey < this.notes.length; curKey++) {
+    showPressedKeys() {
+      if (this.showPressedKeys) {
 
-        // If we've reached the end of the chord (pressedKeys)
-        if (curNoteInChord >= this.pressedKeys.length) {
-          // Clear any remaining pressed keys from previous chord
-          for (var key = curKey; key < this.notes.length; key++) {
-            this.notes[key].isPressed = false;
+        // Loop through keyboard notes, skip first note of F (chord with leftmost F note will start on second octave)
+        var curNoteInChord = 0;
+        for(var curKey = 1; curKey < this.notes.length; curKey++) {
+
+          // If we've reached the end of the chord (pressedKeys)
+          if (curNoteInChord >= this.pressedKeys.length) {
+            // Clear any remaining pressed keys from previous chord
+            for (var key = curKey; key < this.notes.length; key++) {
+              this.notes[key].isPressed = false;
+            }
+
+            // Stop looping, we've pressed all keys in the chord
+            break;
           }
-
-          // Stop looping, we've pressed all keys in the chord
-          break;
+          
+          // If the key is in the chord (pressedKeys), set isPressed to true, otherwise set it to false
+          if (this.notes[curKey].name === this.pressedKeys[curNoteInChord]) {
+            this.notes[curKey].isPressed = true;
+            curNoteInChord++;
+          }
+          else {
+            this.notes[curKey].isPressed = false;
+          }
         }
-
-        // If the key is in the chord (pressedKeys), set isPressed to true, otherwise set it to false
-        if (this.notes[curKey].name === this.pressedKeys[curNoteInChord]) {
-          this.notes[curKey].isPressed = true;
-          curNoteInChord++;
-        }
-        else {
-          this.notes[curKey].isPressed = false;
-        }
-        
       }
-    },
+      else {
+        // Clear all pressed keys
+        for (var note in this.notes) {
+          this.notes[note].isPressed = false;
+        }
+      }   
+    }
   },
+    
   mounted() {
 
     // Create an object with data about the keyboard keys used for rendering it and indicating pressed keys
@@ -77,8 +84,6 @@ export default {
   },
   computed: {
     timerElapsed() {
-      
-      console.log(this.elapsed);
       return this.elapsed;
     }
   }
@@ -353,7 +358,7 @@ ul {
   ul {
     height:20em;
     width:47em;
-    margin:5em auto;
+    margin:1em auto;
     padding:3em 0 0 2.4em;
     position:relative;
     border:1px solid #160801;

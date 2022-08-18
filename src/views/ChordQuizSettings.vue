@@ -1,39 +1,41 @@
 <template>
   <base-layout page-title="Settings" backLink="/ChordQuizMenu">
-    <ion-button @click="save">Save</ion-button>
-    <p class="error" v-if="errors.length">
-      <strong>Please correct the following in the settings:</strong>
-      <ul>
-        <li v-for="error in errors" :key="error">{{ error }}</li>
-      </ul>
-    </p>
-    
-    <ion-list-header>Chord Types:</ion-list-header>
-    <ion-list>
-      <ion-item  v-for="ct in options.chordTypesChosen" :key="ct.chordType">
-        <ion-label>{{ ct.displayName }} </ion-label>
-        <ion-checkbox :value="ct.chordType"  :checked="ct.isChosen" v-model="ct.isChosen"></ion-checkbox>
-      </ion-item>
-    </ion-list>
-    <ion-item-divider></ion-item-divider>
-    <ion-list-header>Other options:</ion-list-header>
-    <ion-list>
-      <ion-item>
-        <ion-label>Inversions</ion-label><ion-checkbox v-model="options.inversions"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>Seconds to show chord:</ion-label><ion-input :value="options.secondsPerChord"  v-model="options.secondsPerChord" />
-      </ion-item>
-      <ion-item>
-        <ion-label>Auto advance after each chord</ion-label><ion-checkbox v-model="options.autoAdvance"></ion-checkbox>
-      </ion-item>
-      <ion-item v-show="options.autoAdvance">
-        <ion-label>Seconds to show answer:</ion-label><ion-input :value="options.secondsPerAnswer" v-model="options.secondsPerAnswer" />
-      </ion-item>
-      <ion-item>
-        <ion-label>Number of chords:</ion-label><ion-input :value="options.numberOfChords" v-model="options.numberOfChords" />
-      </ion-item>
-    </ion-list>
+    <template #body>
+      <ion-button @click="save">Save</ion-button>
+      <p class="error" v-if="errors.length">
+        <strong>Please correct the following in the settings:</strong>
+        <ul>
+          <li v-for="error in errors" :key="error">{{ error }}</li>
+        </ul>
+      </p>
+      
+      <ion-list-header>Chord Types:</ion-list-header>
+      <ion-list>
+        <ion-item  v-for="ct in options.chordTypesChosen" :key="ct.chordType">
+          <ion-label>{{ ct.displayName }} </ion-label>
+          <ion-checkbox :value="ct.chordType"  :checked="ct.isChosen" v-model="ct.isChosen"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+      <ion-item-divider></ion-item-divider>
+      <ion-list-header>Other options:</ion-list-header>
+      <ion-list>
+        <ion-item>
+          <ion-label>Inversions</ion-label><ion-checkbox v-model="options.inversions"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label>Seconds to show chord:</ion-label><ion-input :value="options.secondsPerChord"  v-model="options.secondsPerChord" />
+        </ion-item>
+        <ion-item>
+          <ion-label>Auto advance after each chord</ion-label><ion-checkbox v-model="options.autoAdvance"></ion-checkbox>
+        </ion-item>
+        <ion-item v-show="options.autoAdvance">
+          <ion-label>Seconds to show answer:</ion-label><ion-input :value="options.secondsPerAnswer" v-model="options.secondsPerAnswer" />
+        </ion-item>
+        <ion-item>
+          <ion-label>Number of chords in quiz:</ion-label><ion-input :value="options.numberOfChords" v-model="options.numberOfChords" />
+        </ion-item>
+      </ion-list>
+    </template>
   </base-layout>
       
 </template>
@@ -119,7 +121,7 @@ export default {
 
       temp = parseFloat(this.options.numberOfChords)
       if(!Number.isInteger(temp) || temp < 1) {
-        this.errors.push("Number of chords must be a positive whole number.");
+        this.errors.push("Number of chords in quiz must be a positive whole number.");
         isError = true;
       }
       return isError;

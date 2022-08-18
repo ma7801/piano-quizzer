@@ -1,5 +1,6 @@
 <template>
   <base-layout>
+  <template #body>
   <div class="buttons">
     <ion-button size="large" router-link="/ChordQuiz">Quiz</ion-button>
     <ion-button size="large" router-link="/ChordQuiz/Practice">Practice</ion-button>
@@ -8,6 +9,7 @@
     <ion-button v-if="devMode" @click="showTheSettings">Show Settings from Storage</ion-button>
     <div v-if="devMode && showSettings"> {{ settingsJSON }} </div>
   </div>
+  </template>
   </base-layout>
 </template>
 

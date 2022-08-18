@@ -1,16 +1,23 @@
 Priority:
 On quiz:
-- have counter for chord number/question
-- quiz over text (and disable next chord button)
 - implement auto-advance
+***WORKING ON THIS^^
+  need to handle what happens when next chord button clicked when counting down
+  need to handle end of quiz (stop auto advancing on last question)
+  test and debug
+
+
+
+- better colors on buttons, better font
+Add option/setting to show note names (currently always does)
+Change display names to abbreviations? Gm7 instea of G Minor 7th
+Place inversion on same line as chord to save room (currenlty desktop taking needs scrolling on answer)
 Create practice quiz (will use same page as quiz just act differently - no timer, button to give answer instead)
+possible bug - first load on new device doesn't load settings correctly; test more
 
 
-
-
-
-
-
+Cleanup:
+-I don't think I need the chord formula passed around anymore (it is returned by getRandomChord() in musicData.js)
 
 
 Desired features (add AFTER bare minimum product):
@@ -26,4 +33,4 @@ Make settings menu more narrow for wider screens, and possibly Chord Quiz screen
 
 
 Sometime/maybe:
--save options to local file, DB, or cookie
+- way to keep score (will need to use honor system - like "did you get it right?")
