@@ -1,9 +1,9 @@
 <template>
   <base-layout page-title="Settings" backLink="/ChordQuizMenu">
     <template #body>
-      <ion-button @click="save">Save</ion-button>
+      <ion-button expand="block" size="large" @click="save">Save</ion-button>
       <p class="error" v-if="errors.length">
-        <strong>Please correct the following in the settings:</strong>
+        <strong>Please correct the following:</strong>
         <ul>
           <li v-for="error in errors" :key="error">{{ error }}</li>
         </ul>
@@ -99,28 +99,28 @@ export default {
       var isError = false;
       var temp;
 
-      // See if at least one of the chord types is selected
-      if(this.options.chordTypesChosen.length === 0 ) {
+
+      // See if at least one of the chord types is selected (i.e. see if all chord.isChosen's are false)
+      if(this.options.chordTypesChosen.every((chord) => {return chord.isChosen === false;})) {
         this.errors.push("You must select at least one type of chord.");
         isError = true;
       }
 
       // Check inputs
       temp = parseFloat(this.options.secondsPerChord);
-      console.log(temp);
-      if(!Number.isInteger(temp) || temp < 1) {
+      if(!Number.isInteger(temp) || temp < 1 || isNaN(this.options.secondsPerChord)) {
         this.errors.push("Seconds per chord must be a positive whole number.");
         isError = true;
       }
 
       temp = parseFloat(this.options.secondsPerAnswer)
-      if(!Number.isInteger(temp) || temp < 1) {
+      if(!Number.isInteger(temp) || temp < 1 || isNaN(this.options.secondsPerAnswer)) {
         this.errors.push("Seconds per answer must be a positive whole number.");
         isError = true;
       }
 
       temp = parseFloat(this.options.numberOfChords)
-      if(!Number.isInteger(temp) || temp < 1) {
+      if(!Number.isInteger(temp) || temp < 1 || isNaN(this.options.numberOfChords)) {
         this.errors.push("Number of chords in quiz must be a positive whole number.");
         isError = true;
       }

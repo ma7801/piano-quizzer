@@ -1,7 +1,7 @@
 <template>
-  <base-layout>
+  <base-layout pageTitle="Chord Quiz">
   <template #body>
-  <div class="buttons">
+  <div>
     <ion-button size="large" router-link="/ChordQuiz">Quiz</ion-button>
     <ion-button size="large" router-link="/ChordQuiz/Practice">Practice</ion-button>
     <ion-button size="large" router-link="/ChordQuizSettings">Settings</ion-button>
@@ -17,9 +17,7 @@
 import BaseLayout from '../components/BaseLayout.vue';
 import { IonButton } from '@ionic/vue';
 import { dev } from '../main.js';
-import { getChordTypesArray } from '../musicData.js';
 import { createDefaultSettings } from '../musicData.js';
-import { ChordQuizSettings }  from './ChordQuizSettings.vue'
 
 export default {
   components: { BaseLayout, IonButton },
@@ -53,9 +51,7 @@ export default {
 </script>
 
 <style scoped>
-.buttons {
-  text-align: center;
-}
+
 ion-button {
   width: 80%;
 }

@@ -33,7 +33,7 @@ export default {
 
 <style scoped>
 ion-title {
-  margin: 0 -0.9em 0 0;
+  margin: 0 -1.7em 0 -1.7em;
 }
 ion-back-button.quit {
   background-color: var(--ion-color-tertiary);
