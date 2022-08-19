@@ -7,7 +7,9 @@
     <ion-button size="large" router-link="/ChordQuizSettings">Settings</ion-button>
     <ion-button v-if="devMode" @click="deleteLocalStorage">Delete Storage</ion-button>
     <ion-button v-if="devMode" @click="showTheSettings">Show Settings from Storage</ion-button>
+    <ion-button v-if="devMode" @click="playANote">Play a Note</ion-button>
     <div v-if="devMode && showSettings"> {{ settingsJSON }} </div>
+    
   </div>
   </template>
   </base-layout>
@@ -26,7 +28,8 @@ export default {
     return {
       devMode: dev,
       showSettings: false,
-      settingsJSON: null
+      settingsJSON: null,
+      F: null
     }
   },
   methods: {
@@ -40,6 +43,11 @@ export default {
       this.settingsJSON = window.localStorage.getItem('chordQuizSettings');
       this.showSettings = true;
     },
+    playANote() {
+      this.F = new Audio(require('@/audio/key01.mp3'))
+      this.F.loop = false;
+      this.F.play();
+    }
   },
   mounted() {
     //If no settings exist, create them (1st run or the were deleted somehow)
@@ -53,6 +61,21 @@ export default {
 <style scoped>
 
 ion-button {
-  width: 80%;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-transform: none;
+  font-size: 200%;
 }
+
+@media screen and (min-width: 768px) {
+  ion-button {
+    width: 52%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  ion-button {
+    width: 95%;
+  }
+}
+
 </style>

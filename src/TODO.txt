@@ -1,24 +1,19 @@
 Priority:
-On quiz:
-
-- better colors on buttons, better font
+add option for audio to play or not
 Add option/setting to show note names (currently always does)
 Change display names to abbreviations? Gm7 instea of G Minor 7th
-Create practice quiz (will use same page as quiz just act differently - no timer, button to give answer instead)
 possible bug - first load on new device doesn't load settings correctly; test more
-
+find audio recordings of higher octave notes (or record them)
 
 Cleanup:
--I don't think I need the chord formula passed around anymore (it is returned by getRandomChord() in musicData.js)
 
 
 Desired features (add AFTER bare minimum product):
 Add pull to refresh
-Add sound
+For sound
 - arpeggio option before sounding chord
-- option to have on or off
 
-Make settings menu more narrow for wider screens, and possibly Chord Quiz screen also
+
 
 
 

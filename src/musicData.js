@@ -65,7 +65,6 @@ export function getRandomChord(chordTypes, inversionsAllowed) {
     return {
         chordDisplayName: root + " " + chords[chordType].displayName,
         notes: chordNotes.notes,
-        formula: chordNotes.formula,
         inversionDisplayName: ordinals[inversion] + (inversion !== 0 ? ' inversion' : '')
     }
 }

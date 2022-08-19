@@ -23,7 +23,7 @@
           <ion-label>Inversions</ion-label><ion-checkbox v-model="options.inversions"></ion-checkbox>
         </ion-item>
         <ion-item>
-          <ion-label>Seconds to show chord:</ion-label><ion-input :value="options.secondsPerChord"  v-model="options.secondsPerChord" />
+          <ion-label>Seconds to name of chord:</ion-label><ion-input :value="options.secondsPerChord"  v-model="options.secondsPerChord" />
         </ion-item>
         <ion-item>
           <ion-label>Auto advance after each chord</ion-label><ion-checkbox v-model="options.autoAdvance"></ion-checkbox>
@@ -152,7 +152,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .error {
   color: crimson;
 }
@@ -166,4 +166,6 @@ export default {
 .error li {
   list-style: none;
 }
+
+
 </style>

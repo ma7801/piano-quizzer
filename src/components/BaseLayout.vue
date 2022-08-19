@@ -31,7 +31,13 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
+ion-content {
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-transform: none;
+}
+
+
 ion-title {
   margin: 0 -1.7em 0 -1.7em;
 }
@@ -44,4 +50,6 @@ ion-back-button.quit {
 ion-footer {
   text-align: right;
 }
+
+
 </style>

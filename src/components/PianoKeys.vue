@@ -13,7 +13,7 @@
 const keyboardKeys = ['F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E']
 
 export default {
-  props: ['pressedKeys', 'showPressedKeys'],
+  props: ['pressedKeys', 'showPressedKeys', 'playChord'],
   data() {
     return {
       notes: [],
@@ -22,6 +22,9 @@ export default {
   watch: {
     showPressedKeys() {
       if (this.showPressedKeys) {
+
+        var chordAudio = [];
+        var audioTemp;
 
         // Loop through keyboard notes, skip first note of F (chord with leftmost F note will start on second octave)
         var curNoteInChord = 0;
@@ -41,19 +44,36 @@ export default {
           // If the key is in the chord (pressedKeys), set isPressed to true, otherwise set it to false
           if (this.notes[curKey].name === this.pressedKeys[curNoteInChord]) {
             this.notes[curKey].isPressed = true;
+
+            // If the option to play the audio of the chord is true
+            if(this.playChord) {
+
+             // Add the audio object for the corresponding note file to the chordAudio array
+              audioTemp = new Audio(require('@/audio/key' + (curKey < 9 ? '0' : '') + (curKey+1) + '.mp3'));
+              chordAudio.push(audioTemp);
+            }
             curNoteInChord++;
           }
           else {
             this.notes[curKey].isPressed = false;
           }
         }
+
+        // Play the audio if the playChord is true
+        if (this.playChord) {
+          chordAudio.forEach((note) => {
+            note.loop = false;
+            note.play();
+          });
+        }
+
       }
       else {
         // Clear all pressed keys
         for (var note in this.notes) {
           this.notes[note].isPressed = false;
         }
-      }   
+      }  
     }
   },
     

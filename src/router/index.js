@@ -24,6 +24,10 @@ const routes = [
   {
     path: '/ChordQuiz',
     component: ChordQuiz
+  },
+  {
+    path: '/ChordQuiz/:isPractice',
+    component: ChordQuiz
   }
 ]
 

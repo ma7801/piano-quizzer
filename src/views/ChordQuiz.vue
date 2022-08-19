@@ -1,23 +1,29 @@
 <template>
-  <base-layout page-title="Chord Quiz" backLink="/ChordQuizMenu" hasExitButton='true'>
+  <base-layout :page-title="isPractice ? 'Practice' : 'Chord Quiz'" backLink="/ChordQuizMenu" hasExitButton='true'>
     <template #body>
       
         <h1> 
           {{ curChord.chordDisplayName }} 
-          <span v-if="this.options.inversions"> 
-            <span v-if="this.quizStarted">(</span> 
+          <span v-if="options.inversions"> 
+            <span v-if="quizStarted">(</span> 
             {{ curChord.inversionDisplayName }} 
-            <span v-if="this.quizStarted">)</span>
+            <span v-if="quizStarted">)</span>
           </span>
         </h1>
         
-        <ion-progress-bar  style="transition: none;" :value="elapsedTime/(options.secondsPerChord * 1000)"></ion-progress-bar>
-        <PianoKeys :pressedKeys="curChord.notes" :showPressedKeys="showAnswer"></PianoKeys>
+        <ion-progress-bar  v-if="!isPractice" style="transition: none;" :value="progressPercent"></ion-progress-bar>
+        <PianoKeys :pressedKeys="curChord.notes" :showPressedKeys="showAnswer" :playChord="true"></PianoKeys>
+        
         <div v-show="showAnswer" class="notes-area">Notes:<br /> <span v-for="note in curChord.notes" :key="note">{{ note }}  </span></div>
     </template>
     <template #footer>
-        <ion-note color="secondary" class="note-right">{{chordNum}} / {{options.numberOfChords}}</ion-note>
-        <ion-button v-if="!quizEnded" expand="block" size="large" @click="nextChord" :disabled="chordNum >= options.numberOfChords">
+        <!-- Practice HTML -->
+        <ion-button v-if="isPractice && !showAnswer" expand="block" size="large" @click="showAnswer = true">Show Answer</ion-button>
+        <ion-button v-if="isPractice && showAnswer"  expand="block" size="large" @click="nextChordPractice">Next Chord >></ion-button>
+
+        <!-- Quiz HTML -->
+        <ion-note v-if="!isPractice" color="secondary" class="note-right">{{chordNum}} / {{options.numberOfChords}}</ion-note>
+        <ion-button v-if="!quizEnded && !isPractice" expand="block" size="large" @click="nextChord" :disabled="chordNum >= options.numberOfChords">
           {{ skipOrNextText }} Chord <span v-if="autoAdvanceElapsedTime > 0">&nbsp;in {{ autoAdvanceCountdownTimer }}... </span> >>
         </ion-button>
         <ion-button v-if="quizEnded" expand="block" size="large" strong="true" @click="stopQuiz">End of Quiz - Return to Menu</ion-button>
@@ -39,13 +45,11 @@ export default  {
   },
   data () {
     return {
-      //optionsString: this.$route.params,
       options: {},
       timerElapsed: false,
       curChord: {},
       timer: null,
       chordNum: 0,
-      //chordTimerOn: false,
       elapsedTime: 0,
       quizEnded: false,
       quizStarted: false,
@@ -55,7 +59,8 @@ export default  {
       autoAdvanceTimer: null,
       autoAdvanceElapsedTime: 0,
       isFirstChord: true,
-      getReadyTime: 3
+      getReadyTime: 3,
+      isPractice: false
     }
   },
   methods: {
@@ -148,20 +153,41 @@ export default  {
     stopQuiz () {
       clearInterval(this.timer);
       this.$router.back();
+    },
+    nextChordPractice() {
+      // Reset variables
+      this.showAnswer = false;
+      this.quizStarted = true;
+
+      // Get the chord!
+      this.curChord = getRandomChord(this.chordTypes, this.options.inversions);
     }
 
 
   },
+
   computed: {
     autoAdvanceCountdownTimer() {
       return Math.ceil(parseInt(this.options.secondsPerAnswer) - this.autoAdvanceElapsedTime/1000);
+    },
+    progressPercent() {
+
+      // If the get ready message is showing
+      if(this.isFirstChord) {
+        return this.elapsedTime/(this.getReadyTime * 1000)
+      }
+
+      // Otherwise the quiz is going
+      else {
+        return this.elapsedTime/(this.options.secondsPerChord * 1000)
+      }
+      
     }
   },
   mounted() {
 
     // Retrieve settings:
     this.options = JSON.parse(window.localStorage.getItem('chordQuizSettings'));
-
 
     // Get the chord types from these options
     for (var index in this.options.chordTypesChosen) {
@@ -170,7 +196,17 @@ export default  {
       }
     }
 
-    this.nextChord();
+    // If this is practice
+    if(this.$route.params.isPractice === 'Practice') {
+      this.isPractice = true;
+      this.skipOrNextText = 'Next';
+      this.nextChordPractice();
+    }
+    // Else it's a quiz
+    else {
+      this.nextChord();
+    }
+    
     
   },
   ionViewDidLeave() {
@@ -202,5 +238,11 @@ ion-note {
 
 .notes-area span {
   margin: 0.5em 0.5em;
+}
+
+ion-button {
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  text-transform: none;
+  font-size: 150%;
 }
 </style>
