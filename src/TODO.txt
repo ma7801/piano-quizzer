@@ -1,9 +1,22 @@
 Priority:
+fix different height for chord abbreviation and full name
+first chord doesn't seem to be sounding in quiz
+Move progress bar to bottom or top
+
+make larger for mobile screen (design mobile FIRST)
 add option for audio to play or not
 Add option/setting to show note names (currently always does)
-Change display names to abbreviations? Gm7 instea of G Minor 7th
-possible bug - first load on new device doesn't load settings correctly; test more
 find audio recordings of higher octave notes (or record them)
+for practice only:
+- option to have chords displayed: randomly, by fifths, by fourths, or chromatic
+  - if fifths, fourths, or chromatic, show C major, then minor, then minor 7th (or whatever chord types are selected in options), then
+    Db major, Db minor, Db 7th, then D major...
+Change number options in settings to selects instead of text inputs
+instructions page
+prevent landscape on mobile
+back on main menu exits the app
+add sharp chords in addition to flats (or have option to show one or the other or both)
+- sharp unicode = 266F  (so '\u266f' in JS)
 
 Cleanup:
 
@@ -17,10 +30,14 @@ For sound
 
 
 
-
+Issues:
+-possible bug - first load on new device doesn't load settings correctly; test more
 
 
 
 Sometime/maybe:
+- desktop version has two columns so that scrolling isn't necessary
 - way to keep score (will need to use honor system - like "did you get it right?")
 - option to choose starting octave of audio (may require me to record the audio of all 88 keys if I do that!)
+- detect audio and see if user hit the correct chord.  Resources:
+  - https://github.com/aubio/aubio

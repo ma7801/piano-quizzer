@@ -13,23 +13,76 @@
       <ion-list>
         <ion-item  v-for="ct in options.chordTypesChosen" :key="ct.chordType">
           <ion-label>{{ ct.displayName }} </ion-label>
-          <ion-checkbox :value="ct.chordType"  :checked="ct.isChosen" v-model="ct.isChosen"></ion-checkbox>
+          <ion-toggle :value="ct.chordType"  :checked="ct.isChosen" v-model="ct.isChosen"></ion-toggle>
         </ion-item>
       </ion-list>
       <ion-item-divider></ion-item-divider>
-      <ion-list-header>Other options:</ion-list-header>
       <ion-list>
         <ion-item>
-          <ion-label>Inversions</ion-label><ion-checkbox v-model="options.inversions"></ion-checkbox>
+          <ion-label>Inversions</ion-label><ion-toggle v-model="options.inversions"></ion-toggle>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-list-header>
+          Practice Options:
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Show chords in order</ion-label>
+          <ion-toggle><!--NOT IMPLEMENTED YET--></ion-toggle>
+        </ion-item>
+        <ion-radio-group>
+          <ion-item>
+            <ion-label>&nbsp;&nbsp;&nbsp;by Fifths</ion-label>
+            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>&nbsp;&nbsp;&nbsp;by Fourths</ion-label>
+            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>&nbsp;&nbsp;&nbsp;Chromatic</ion-label>
+            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+        <ion-item>
+          <ion-label>&nbsp;&nbsp;&nbsp;Starting Key</ion-label>
+          <ion-select><!--NOT IMPLEMENTED YET--></ion-select>
+        </ion-item>
+        <ion-radio-group>
+          <ion-item>
+            <ion-label>&nbsp;&nbsp;&nbsp;Chord Type then Key: C, Cm, G, Gm, ...</ion-label>
+            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
+          </ion-item>
+          <ion-item>
+            <ion-label>&nbsp;&nbsp;&nbsp;Key then Chord Type: C, G, ..., Cm, Gm, ...</ion-label>
+            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
+          </ion-item>
+
+        </ion-radio-group>
+
+      </ion-list>
+      <ion-list>
+        <ion-list-header>
+          Quiz Options:
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Seconds to show chord:</ion-label>
+          <ion-select :value="options.secondsPerChord" v-model="options.secondsPerChord">
+            <ion-select-option v-for="n in 20" :key="n" >
+               {{ n }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
         <ion-item>
-          <ion-label>Seconds to name of chord:</ion-label><ion-input :value="options.secondsPerChord"  v-model="options.secondsPerChord" />
-        </ion-item>
-        <ion-item>
-          <ion-label>Auto advance after each chord</ion-label><ion-checkbox v-model="options.autoAdvance"></ion-checkbox>
+          <ion-label>Auto advance after each chord</ion-label><ion-toggle v-model="options.autoAdvance"></ion-toggle>
         </ion-item>
         <ion-item v-show="options.autoAdvance">
-          <ion-label>Seconds to show answer:</ion-label><ion-input :value="options.secondsPerAnswer" v-model="options.secondsPerAnswer" />
+          <ion-label>&nbsp;&nbsp;&nbsp;Seconds to show answer:</ion-label>
+          <ion-select :value="options.secondsPerAnswer" v-model="options.secondsPerAnswer">
+            <ion-select-option v-for="n in 20" :key="n" >
+              {{ n }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
         <ion-item>
           <ion-label>Number of chords in quiz:</ion-label><ion-input :value="options.numberOfChords" v-model="options.numberOfChords" />
@@ -41,14 +94,16 @@
 </template>
 
 <script>
-import { IonInput, IonCheckbox, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton } from '@ionic/vue'
+import { IonInput, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton, IonRadio, IonRadioGroup, IonToggle, IonSelect, IonSelectOption } from '@ionic/vue'
 import { chords } from '../musicData.js';
+import { roots } from '../musicData.js';
+import { circleOfFifths } from '../musicData.js';
 
 
 export default {
   name: 'ChordQuizSettings',
   components: {
-    IonInput, IonCheckbox, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton
+    IonInput, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton, IonRadio, IonRadioGroup, IonToggle, IonSelect, IonSelectOption
 
   },
   emits: ['start'],
@@ -65,9 +120,14 @@ export default {
       },
       optionsString: '',
       errors: [],
+      notesChromatic: roots,
+      notesCircleOfFifths: circleOfFifths
     }
   },
   methods: {
+    debug1() {
+      console.log(this.options);
+    },
     save() {
       // Check for validation errors first
       if(this.checkErrors()) {

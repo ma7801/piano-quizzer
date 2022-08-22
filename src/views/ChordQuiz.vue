@@ -2,21 +2,22 @@
   <base-layout :page-title="isPractice ? 'Practice' : 'Chord Quiz'" backLink="/ChordQuizMenu" hasExitButton='true'>
     <template #body>
       
-        <h1> 
-          {{ curChord.chordDisplayName }} 
-          <span v-if="options.inversions"> 
-            <span v-if="quizStarted">(</span> 
-            {{ curChord.inversionDisplayName }} 
-            <span v-if="quizStarted">)</span>
-          </span>
-        </h1>
+        <h1 v-show="!showFullChordName" class="chord-abbr" @click="showFullChordName = !showFullChordName"> {{ curChord.chordAbbreviation }} </h1>
+        <h1 v-show="showFullChordName" class="chord-full" @click="showFullChordName = !showFullChordName"> {{ curChord.chordDisplayName}} </h1>
+        <h2 v-if="options.inversions"> 
+          <span v-if="quizStarted">(</span> 
+          {{ curChord.inversionDisplayName }} 
+          <span v-if="quizStarted">)</span>
+        </h2>
+      
         
-        <ion-progress-bar  v-if="!isPractice" style="transition: none;" :value="progressPercent"></ion-progress-bar>
+        
         <PianoKeys :pressedKeys="curChord.notes" :showPressedKeys="showAnswer" :playChord="true"></PianoKeys>
         
         <div v-show="showAnswer" class="notes-area">Notes:<br /> <span v-for="note in curChord.notes" :key="note">{{ note }}  </span></div>
     </template>
     <template #footer>
+        <ion-progress-bar  v-if="!isPractice" style="transition: none;" :value="progressPercent"></ion-progress-bar>
         <!-- Practice HTML -->
         <ion-button v-if="isPractice && !showAnswer" expand="block" size="large" @click="showAnswer = true">Show Answer</ion-button>
         <ion-button v-if="isPractice && showAnswer"  expand="block" size="large" @click="nextChordPractice">Next Chord >></ion-button>
@@ -60,7 +61,8 @@ export default  {
       autoAdvanceElapsedTime: 0,
       isFirstChord: true,
       getReadyTime: 3,
-      isPractice: false
+      isPractice: false,
+      showFullChordName: false
     }
   },
   methods: {
@@ -68,7 +70,7 @@ export default  {
 
       // If this is the first chord, show "Get Ready..." message instead of a chord
       if (this.isFirstChord) {
-        this.curChord.chordDisplayName = "Get Ready...";
+        this.curChord.chordAbbreviation = "Get Ready...";
         this.timer = setInterval(() => {
           this.elapsedTime += 10;
 
@@ -90,6 +92,9 @@ export default  {
         }
 
         this.quizStarted = true;
+
+        // Reset chord to display to abbreviation
+        this.showFullChordName = false;
 
         // Reset the autoAdvanceTimer (if the next chord button was clicked while advance timer was counting down) 
         if (this.autoAdvanceTimer > 0) {
@@ -113,7 +118,7 @@ export default  {
         this.timer = setInterval(() => {
           this.elapsedTime += 10;
 
-          console.log('timer tick');
+          //console.log('timer tick');
 
           // If timer is elapsed
           if (this.elapsedTime >= (this.options.secondsPerChord * 1000)) {
@@ -134,7 +139,7 @@ export default  {
             if (this.options.autoAdvance && !this.quizEnded) {
               this.autoAdvanceTimer = setInterval(() => {
                 this.autoAdvanceElapsedTime += 10;
-                console.log('autoAdvance tick');
+                //console.log('autoAdvance tick');
 
                 if (this.autoAdvanceElapsedTime >= (this.options.secondsPerAnswer * 1000)) {
                   clearInterval(this.autoAdvanceTimer);
@@ -158,6 +163,7 @@ export default  {
       // Reset variables
       this.showAnswer = false;
       this.quizStarted = true;
+      this.showFullChordName = false;
 
       // Get the chord!
       this.curChord = getRandomChord(this.chordTypes, this.options.inversions);
@@ -245,4 +251,15 @@ ion-button {
   text-transform: none;
   font-size: 150%;
 }
+
+h1.chord-abbr {
+  font-size: 400%;
+  height: 1.5em;
+}
+
+h1.chord-full {
+  height: 1.5em;
+  padding: auto;
+}
+
 </style>

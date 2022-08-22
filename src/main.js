@@ -1,5 +1,5 @@
 // Set to false when released:
-export const dev = true;
+export const dev = false;
 
 import { createApp } from 'vue'
 import App from './App.vue'

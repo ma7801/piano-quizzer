@@ -10,7 +10,7 @@
 
 <script>
 
-const keyboardKeys = ['F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E']
+const keyboardKeys = ['F', 'G\u266d', 'G', 'A\u266d', 'A', 'B\u266d', 'B', 'C', 'D\u266d', 'D', 'E\u266d', 'E', 'F', 'G\u266d', 'G', 'A\u266d', 'A', 'B\u266d', 'B', 'C', 'D\u266d', 'D', 'E\u266d', 'E']
 
 export default {
   props: ['pressedKeys', 'showPressedKeys', 'playChord'],
@@ -40,7 +40,7 @@ export default {
             // Stop looping, we've pressed all keys in the chord
             break;
           }
-          
+
           // If the key is in the chord (pressedKeys), set isPressed to true, otherwise set it to false
           if (this.notes[curKey].name === this.pressedKeys[curNoteInChord]) {
             this.notes[curKey].isPressed = true;

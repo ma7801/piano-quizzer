@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Piano Quizzer</string>
+    <string name="title_activity_main">Piano Quizzer</string>
+    <string name="package_name">com.pianoquizzer.app</string>
+    <string name="custom_url_scheme">com.pianoquizzer.app</string>
+</resources>

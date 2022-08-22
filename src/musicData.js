@@ -2,23 +2,28 @@ export const chords = {
     //"type": [key 1 chromatic distance from root, key 2 chromatic distance from root, ...]
     "major": {
         "displayName": "Major",
+        "abbreviation": "",
         "formula": [0, 4, 7]
     },
     "minor": {
         "displayName": "Minor",
+        "abbreviation": "m",
         "formula": [0, 3, 7]
     },
     "dim": {
         "displayName": "Diminished",
+        "abbreviation": "dim",
         "formula": [0, 3, 6],
     },
     //"aug": [0, 4, 8],
     "domSeventh": {
         "displayName": "Dominant 7th",
+        "abbreviation": "7",
         "formula": [0, 4, 7, 10]
     },
     "majorSeventh": {
         "displayName": "Major 7th",
+        "abbreviation": "maj7",
         "formula": [0, 4, 7, 11]
     }
     //"minorSeventh": [0, 3, 7, 10]
@@ -26,8 +31,8 @@ export const chords = {
 
 };
 
-export const roots = ['A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab'];
-
+export const roots = ['A', 'B\u266d', 'B', 'C', 'D\u266d', 'D', 'E\u266d', 'E', 'F', 'G\u266d', 'G', 'A\u266d'];
+export const circleOfFifths = ['C', 'G', 'D', 'A', 'E', 'B', 'G\u266d', 'D\u266d', 'A\u266d', 'E\u266d', 'B\u266d', 'F'];
 
 
 // For use in display names of inversions
@@ -64,6 +69,7 @@ export function getRandomChord(chordTypes, inversionsAllowed) {
 
     return {
         chordDisplayName: root + " " + chords[chordType].displayName,
+        chordAbbreviation: root + chords[chordType].abbreviation,
         notes: chordNotes.notes,
         inversionDisplayName: ordinals[inversion] + (inversion !== 0 ? ' inversion' : '')
     }

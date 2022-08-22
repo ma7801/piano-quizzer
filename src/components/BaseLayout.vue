@@ -37,10 +37,12 @@ ion-content {
   text-transform: none;
 }
 
-
+/*
 ion-title {
   margin: 0 -1.7em 0 -1.7em;
 }
+*/
+
 ion-back-button.quit {
   background-color: var(--ion-color-tertiary);
   color: var(--ion-color-tertiary-contrast);
