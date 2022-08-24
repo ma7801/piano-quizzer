@@ -1,7 +1,7 @@
 Priority:
+
+***FINISH implementation of different types of "sub-orders" key, type, inversion, etc.  Unfinished code in both musicData.js and ChordQuizSettings.vue
 fix different height for chord abbreviation and full name
-first chord doesn't seem to be sounding in quiz
-Move progress bar to bottom or top
 
 make larger for mobile screen (design mobile FIRST)
 add option for audio to play or not
@@ -11,7 +11,7 @@ for practice only:
 - option to have chords displayed: randomly, by fifths, by fourths, or chromatic
   - if fifths, fourths, or chromatic, show C major, then minor, then minor 7th (or whatever chord types are selected in options), then
     Db major, Db minor, Db 7th, then D major...
-Change number options in settings to selects instead of text inputs
+  - inversion option
 instructions page
 prevent landscape on mobile
 back on main menu exits the app

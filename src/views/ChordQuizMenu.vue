@@ -38,18 +38,22 @@
   <div v-if="devMode && showSettings"> {{ settingsJSON }} </div>
 
   </template>
+  <template #footer>
+    <ion-title id="version" >Version {{ ver }}</ion-title>
+  </template>
   </base-layout>
 </template>
 
 <script>
 import BaseLayout from '../components/BaseLayout.vue';
-import { IonButton, IonCard, IonCardContent, IonCardTitle, IonIcon, IonItem } from '@ionic/vue';
+import { IonButton, IonCard, IonCardContent, IonCardTitle, IonIcon, IonItem, IonTitle} from '@ionic/vue';
 import { dev } from '../main.js';
 import { createDefaultSettings } from '../musicData.js';
 import { help, musicalNotes, settings } from "ionicons/icons";
+import { version } from '../main.js';
 
 export default {
-  components: { BaseLayout, IonButton, IonCard,IonCardContent, IonCardTitle, IonIcon, IonItem },
+  components: { BaseLayout, IonButton, IonCard,IonCardContent, IonCardTitle, IonIcon, IonItem, IonTitle },
 
   data () {
     return {
@@ -59,7 +63,8 @@ export default {
       F: null,
       help: help,
       musicalNotes: musicalNotes,
-      settings: settings
+      settings: settings,
+      ver: version
     }
   },
   methods: {
@@ -109,8 +114,21 @@ ion-card-content.button {
 }
 
 ion-card ion-icon {
-  margin-right: 0.3em;
+  margin-right: 0.7em;
 }
+
+ion-card:first-child{
+  margin-top: 6em;
+}
+ion-card {
+  margin-top: 2em;
+}
+
+#version {
+  text-align: center;
+  margin: 1em auto;
+}
+
 /*
 @media screen and (min-width: 768px) {
   ion-button {

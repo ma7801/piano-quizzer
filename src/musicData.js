@@ -33,7 +33,38 @@ export const chords = {
 
 export const roots = ['A', 'B\u266d', 'B', 'C', 'D\u266d', 'D', 'E\u266d', 'E', 'F', 'G\u266d', 'G', 'A\u266d'];
 export const circleOfFifths = ['C', 'G', 'D', 'A', 'E', 'B', 'G\u266d', 'D\u266d', 'A\u266d', 'E\u266d', 'B\u266d', 'F'];
+export const chordSubOrderElements = [
+    {
+        displayName: "C, Cm, G, Gm...C(i), Cm(i), G(i), Gm(i), ...",
+        name: "key-type-inversion"
+    },
+    {
+        displayName: "",
+        name: "key-inversion-type"
+    },
+    {
+        displayName: "",
+        name: "type-key-inversion"
+    },
+    {
+        displayName: "",
+        name: "type-inversion-key"
+    },
+    {
+        displayName: "",
+        name: "inversion-key-type"
+    },
+    {
+        displayName: "",
+        name: "inversion-type-key"
+    }
 
+
+
+
+
+
+}];
 
 // For use in display names of inversions
 const ordinals = ['root', '1st', '2nd', '3rd']
@@ -152,7 +183,11 @@ export function createDefaultSettings() {
         secondsPerChord: '5',
         autoAdvance: false,
         secondsPerAnswer: '2',
-        numberOfChords: '20'
+        numberOfChords: '20',
+        orderOfChords: 'chromatic',
+        startingKey: 'C',
+        practiceChordsInOrder: false,
+        chordSubOrder: 'typeThenKey'
     }
 
     console.log(settingsTemp);

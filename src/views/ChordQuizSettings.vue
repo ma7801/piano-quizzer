@@ -28,37 +28,48 @@
         </ion-list-header>
         <ion-item>
           <ion-label>Show chords in order</ion-label>
-          <ion-toggle><!--NOT IMPLEMENTED YET--></ion-toggle>
+          <ion-toggle v-model="options.practiceChordsInOrder"></ion-toggle>
         </ion-item>
-        <ion-radio-group>
+        <div v-show="options.practiceChordsInOrder">
           <ion-item>
-            <ion-label>&nbsp;&nbsp;&nbsp;by Fifths</ion-label>
-            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
-          </ion-item>
-          <ion-item>
-            <ion-label>&nbsp;&nbsp;&nbsp;by Fourths</ion-label>
-            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
-          </ion-item>
-          <ion-item>
-            <ion-label>&nbsp;&nbsp;&nbsp;Chromatic</ion-label>
-            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
-          </ion-item>
-        </ion-radio-group>
-        <ion-item>
-          <ion-label>&nbsp;&nbsp;&nbsp;Starting Key</ion-label>
-          <ion-select><!--NOT IMPLEMENTED YET--></ion-select>
-        </ion-item>
-        <ion-radio-group>
-          <ion-item>
-            <ion-label>&nbsp;&nbsp;&nbsp;Chord Type then Key: C, Cm, G, Gm, ...</ion-label>
-            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
-          </ion-item>
-          <ion-item>
-            <ion-label>&nbsp;&nbsp;&nbsp;Key then Chord Type: C, G, ..., Cm, Gm, ...</ion-label>
-            <ion-radio><!--NOT IMPLEMENTED YET--></ion-radio>
+            <ion-label>&nbsp;&nbsp;&nbsp;Root order:</ion-label>
+            <ion-select v-model="options.orderOfChords">
+              <ion-select-option value="fifths">by Fifths</ion-select-option>
+              <ion-select-option value="fourths">by Fourths</ion-select-option>
+              <ion-select-option value="chromatic">Chromatic</ion-select-option>
+            </ion-select>
           </ion-item>
 
-        </ion-radio-group>
+          <ion-item>
+            <ion-label>&nbsp;&nbsp;&nbsp;Starting Key</ion-label>
+            <!-- show order of roots based in different orders based on which order is chosen in "root order"-->
+            <ion-select v-if="options.orderOfChords === 'chromatic'" :value="options.startingKey" v-model="options.startingKey">
+              <ion-select-option  v-for="note in notesChromatic" :key="note">{{ note }}</ion-select-option>
+            </ion-select>
+            <ion-select v-if="options.orderOfChords !== 'chromatic'" :value="options.startingKey" v-model="options.startingKey">
+              <ion-select-option  v-for="note in notesCircleOfFifths" :key="note">{{ note }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>&nbsp;&nbsp;&nbsp;Order of Chord Types:</ion-item>
+          <ion-item>
+            <ion-select v-model="options.chordSubOrder">
+              <ion-select-option
+            </ion-select>
+          </ion-item>
+
+          <ion-radio-group v-model="options.chordSubOrder">
+            <ion-item>
+              <ion-label>&nbsp;&nbsp;&nbsp;Chord Type then Key: C, Cm, G, Gm, ...</ion-label>
+              <ion-radio value='typeThenKey' :checked="options.chordSubOrder === 'typeThenKey'"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>&nbsp;&nbsp;&nbsp;Key then Chord Type: C, G, ..., Cm, Gm, ...</ion-label>
+              <ion-radio  value='keyThenType' :checked="options.chordSubOrder === 'keyThenType'"></ion-radio>
+            </ion-item>
+
+          </ion-radio-group>
+        </div>
 
       </ion-list>
       <ion-list>
@@ -98,6 +109,7 @@ import { IonInput, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, Ion
 import { chords } from '../musicData.js';
 import { roots } from '../musicData.js';
 import { circleOfFifths } from '../musicData.js';
+import { chordSubOrders } from '../musicData.js';
 
 
 export default {
@@ -116,7 +128,11 @@ export default {
         secondsPerChord: '',
         autoAdvance: false,
         secondsPerAnswer: '',
-        numberOfChords: ''
+        numberOfChords: '',
+        orderOfChords: '',
+        startingKey: '',
+        practiceChordsInOrder: false,
+        chordSubOrder: ''
       },
       optionsString: '',
       errors: [],
@@ -125,9 +141,6 @@ export default {
     }
   },
   methods: {
-    debug1() {
-      console.log(this.options);
-    },
     save() {
       // Check for validation errors first
       if(this.checkErrors()) {
@@ -203,6 +216,8 @@ export default {
     this.createChordTypesChosen();
   },
   mounted() {
+    console.log(this.options);
+
     // Retrieve currently chosen options if they exist in localStorage
     if (window.localStorage.getItem('chordQuizSettings')) {
       this.options = JSON.parse(window.localStorage.getItem('chordQuizSettings'));

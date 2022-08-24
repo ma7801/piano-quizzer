@@ -1,5 +1,8 @@
 // Set to false when released:
-export const dev = false;
+export const dev = true;
+
+// Version
+export const version = "0.4"
 
 import { createApp } from 'vue'
 import App from './App.vue'
