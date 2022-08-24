@@ -155,7 +155,8 @@ export function createDefaultSettings() {
         orderOfChords: 'chromatic',
         startingKey: 'C',
         practiceChordsInOrder: false,
-        chordSubOrder: 'typeThenKey'
+        playChord: true,
+        showNotes: true
     }
 
     console.log(settingsTemp);

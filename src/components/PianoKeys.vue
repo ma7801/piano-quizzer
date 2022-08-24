@@ -3,7 +3,6 @@
 <ul class="set">
   <li v-for="note in notes" :class="[note.name, note.color, {pressed: note.isPressed}]" :key="note.index"></li>
 </ul>
-<div class="noteNames"> </div>
 </div>
 </template>
 

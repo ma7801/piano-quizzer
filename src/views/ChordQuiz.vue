@@ -12,7 +12,7 @@
       
         <PianoKeys :pressedKeys="curChord.notes" :showPressedKeys="showAnswer" :playChord="true"></PianoKeys>
         
-        <div v-show="showAnswer" class="notes-area">Notes:<br /> <span v-for="note in curChord.notes" :key="note">{{ note }}  </span></div>
+        <div v-show="showAnswer && options.showNotes" class="notes-area">Notes:<br /> <span v-for="note in curChord.notes" :key="note">{{ note }}  </span></div>
     </template>
     <template #footer>
         <ion-progress-bar  v-if="!isPractice" style="transition: none;" :value="progressPercent"></ion-progress-bar>

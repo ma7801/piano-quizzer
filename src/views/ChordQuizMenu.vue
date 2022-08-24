@@ -2,40 +2,59 @@
   <base-layout pageTitle="Chord Quiz">
   <template #body>
 
-  <ion-card router-link="/ChordQuiz">
-    <ion-item>
-      <ion-icon size="large" :icon="help" slot="start"></ion-icon>
-      <ion-card-title>Quiz</ion-card-title>
-      <ion-card-content class="button" slot="end">
-        Test your chord knowledge!
-      </ion-card-content>
-    </ion-item>
-  </ion-card>
+    <ion-card router-link="/ChordQuiz">
+      <ion-item>
+        <ion-icon size="large" :icon="school" slot="start"></ion-icon>
+        <ion-card-title>Quiz</ion-card-title>
+        <ion-card-content class="button" slot="end">
+          Test your chord knowledge!
+        </ion-card-content>
+      </ion-item>
+    </ion-card>
 
-  <ion-card router-link="ChordQuiz/Practice">
-    <ion-item>
-      <ion-icon size="large" :icon="musicalNotes" slot="start"></ion-icon>
-      <ion-card-title>Practice</ion-card-title>
-      <ion-card-content class="button" slot="end">
-        Practice chords without a timer.
-      </ion-card-content>
-    </ion-item>
-  </ion-card>
+    <ion-card router-link="ChordQuiz/Practice">
+      <ion-item>
+        <ion-icon size="large" :icon="musicalNotes" slot="start"></ion-icon>
+        <ion-card-title>Practice</ion-card-title>
+        <ion-card-content class="button" slot="end">
+          Practice chords without a timer.
+        </ion-card-content>
+      </ion-item>
+    </ion-card>
 
-  <ion-card router-link="/ChordQuizSettings">
-    <ion-item>
-      <ion-icon size="large" :icon="settings" slot="start"></ion-icon>
-      <ion-card-title>Settings</ion-card-title>
-      <ion-card-content class="button" slot="end">
-        Settings for both quiz and practice.
-      </ion-card-content>
-    </ion-item>
-  </ion-card>
+    <ion-card router-link="/ChordQuizSettings">
+      <ion-item>
+        <ion-icon size="large" :icon="settings" slot="start"></ion-icon>
+        <ion-card-title>Settings</ion-card-title>
+        <ion-card-content class="button" slot="end">
+          Settings for both quiz and practice.
+        </ion-card-content>
+      </ion-item>
+    </ion-card>
 
-  <ion-button v-if="devMode" @click="deleteLocalStorage">Delete Storage</ion-button>
-  <ion-button v-if="devMode" @click="showTheSettings">Show Settings from Storage</ion-button>
-  <ion-button v-if="devMode" @click="playANote">Play a Note</ion-button>
-  <div v-if="devMode && showSettings"> {{ settingsJSON }} </div>
+    <ion-card @click="showInstructions = !showInstructions">
+      <ion-item>
+        <ion-icon size="large" :icon="help" slot="start"></ion-icon>
+        <ion-card-title>How To</ion-card-title>
+        <ion-card-content class="button" slot="end">
+          How to use this app to help you learn chords.
+        </ion-card-content>
+      </ion-item>
+    </ion-card>
+    
+    <ion-alert :is-open="showInstructions" header="Instructions" sub-header="Welcome to Chord Quiz!"
+      message="Place your device on your sheet music holder.  In both the quiz and the practice, you'll be shown a chord name.  Try to play the chord on
+      your piano/keyboard.  In the quiz, the answer will be shown after a set amount of seconds.  In practice, you can show the answer by 
+      clicking the button at the bottom."
+      :buttons="['OK']"
+      @didDismiss="showInstructions = false">
+      
+    </ion-alert>
+
+    <ion-button v-if="devMode" @click="deleteLocalStorage">Delete Storage</ion-button>
+    <ion-button v-if="devMode" @click="showTheSettings">Show Settings from Storage</ion-button>
+    <ion-button v-if="devMode" @click="playANote">Play a Note</ion-button>
+    <div v-if="devMode && showSettings"> {{ settingsJSON }} </div>
 
   </template>
   <template #footer>
@@ -46,14 +65,14 @@
 
 <script>
 import BaseLayout from '../components/BaseLayout.vue';
-import { IonButton, IonCard, IonCardContent, IonCardTitle, IonIcon, IonItem, IonTitle} from '@ionic/vue';
+import { IonButton, IonCard, IonCardContent, IonCardTitle, IonIcon, IonItem, IonTitle, IonAlert} from '@ionic/vue';
 import { dev } from '../main.js';
 import { createDefaultSettings } from '../musicData.js';
-import { help, musicalNotes, settings } from "ionicons/icons";
+import { help, musicalNotes, settings, school } from "ionicons/icons";
 import { version } from '../main.js';
 
 export default {
-  components: { BaseLayout, IonButton, IonCard,IonCardContent, IonCardTitle, IonIcon, IonItem, IonTitle },
+  components: { BaseLayout, IonButton, IonCard,IonCardContent, IonCardTitle, IonIcon, IonItem, IonTitle, IonAlert },
 
   data () {
     return {
@@ -64,7 +83,9 @@ export default {
       help: help,
       musicalNotes: musicalNotes,
       settings: settings,
-      ver: version
+      school: school,
+      ver: version,
+      showInstructions: false
     }
   },
   methods: {

@@ -1,6 +1,7 @@
 <template>
   <base-layout page-title="Settings" backLink="/ChordQuizMenu">
     <template #body>
+      <!--
       <ion-button expand="block" size="large" @click="save">Save</ion-button>
       <p class="error" v-if="errors.length">
         <strong>Please correct the following:</strong>
@@ -8,6 +9,7 @@
           <li v-for="error in errors" :key="error">{{ error }}</li>
         </ul>
       </p>
+      -->
       
       <ion-list-header>Chord Types:</ion-list-header>
       <ion-list>
@@ -87,13 +89,26 @@
           </ion-select>
         </ion-item>
       </ion-list>
+      <ion-list>
+        <ion-list-header>
+          Global Options:
+        </ion-list-header>
+        <ion-item>
+          <ion-label>Play audio of chord answer</ion-label>
+          <ion-toggle v-model="options.playChord"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label>Show notes of chord answer</ion-label>
+          <ion-toggle v-model="options.showNotes"></ion-toggle>
+        </ion-item>
+      </ion-list>
     </template>
   </base-layout>
       
 </template>
 
 <script>
-import { IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton, IonToggle, IonSelect, IonSelectOption } from '@ionic/vue'
+import { IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonToggle, IonSelect, IonSelectOption } from '@ionic/vue'
 import { chords } from '../musicData.js';
 import { roots } from '../musicData.js';
 import { circleOfFifths } from '../musicData.js';
@@ -102,7 +117,7 @@ import { circleOfFifths } from '../musicData.js';
 export default {
   name: 'ChordQuizSettings',
   components: {
-    IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton, IonToggle, IonSelect, IonSelectOption
+    IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonToggle, IonSelect, IonSelectOption
 
   },
   emits: ['start'],
@@ -119,6 +134,8 @@ export default {
         orderOfChords: '',
         startingKey: '',
         practiceChordsInOrder: false,
+        playChord: true,
+        showNotes: true
       },
       optionsString: '',
       errors: [],
@@ -209,6 +226,9 @@ export default {
       this.options = JSON.parse(window.localStorage.getItem('chordQuizSettings'));
     }
 
+  },
+  ionViewWillLeave() {
+    this.save();
   }
 };
 </script>

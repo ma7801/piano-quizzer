@@ -1,12 +1,9 @@
 PRIORITY:
 finish implementing chords in order on practice
-consinder removing "save" from settings screen and saving automatically after a change
-make larger for mobile screen (design mobile FIRST)
-add option for audio to play or not
-Add option/setting to show note names (currently always does)
+add option for audio to play or notes - finish
+
+make larger for mobile screen (design mobile FIRST) (spread out quiz and practice elements)
 find audio recordings of higher octave notes (or record them)
-for practice only:
-instructions page
 prevent landscape on mobile
 back on main menu exits the app
 add sharp chords in addition to flats (or have option to show one or the other or both)
