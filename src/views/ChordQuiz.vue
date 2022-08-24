@@ -10,8 +10,6 @@
           <span v-if="quizStarted">)</span>
         </h2>
       
-        
-        
         <PianoKeys :pressedKeys="curChord.notes" :showPressedKeys="showAnswer" :playChord="true"></PianoKeys>
         
         <div v-show="showAnswer" class="notes-area">Notes:<br /> <span v-for="note in curChord.notes" :key="note">{{ note }}  </span></div>

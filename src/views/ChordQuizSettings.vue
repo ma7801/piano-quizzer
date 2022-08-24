@@ -50,27 +50,7 @@
               <ion-select-option  v-for="note in notesCircleOfFifths" :key="note">{{ note }}</ion-select-option>
             </ion-select>
           </ion-item>
-
-          <ion-item>&nbsp;&nbsp;&nbsp;Order of Chord Types:</ion-item>
-          <ion-item>
-            <ion-select v-model="options.chordSubOrder">
-              <ion-select-option
-            </ion-select>
-          </ion-item>
-
-          <ion-radio-group v-model="options.chordSubOrder">
-            <ion-item>
-              <ion-label>&nbsp;&nbsp;&nbsp;Chord Type then Key: C, Cm, G, Gm, ...</ion-label>
-              <ion-radio value='typeThenKey' :checked="options.chordSubOrder === 'typeThenKey'"></ion-radio>
-            </ion-item>
-            <ion-item>
-              <ion-label>&nbsp;&nbsp;&nbsp;Key then Chord Type: C, G, ..., Cm, Gm, ...</ion-label>
-              <ion-radio  value='keyThenType' :checked="options.chordSubOrder === 'keyThenType'"></ion-radio>
-            </ion-item>
-
-          </ion-radio-group>
         </div>
-
       </ion-list>
       <ion-list>
         <ion-list-header>
@@ -96,7 +76,15 @@
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-label>Number of chords in quiz:</ion-label><ion-input :value="options.numberOfChords" v-model="options.numberOfChords" />
+          <ion-label>Number of chords in quiz:</ion-label>
+          <ion-select :value="options.numberOfChords" v-model="options.numberOfChords">
+            <!-- show options from 5 to 100-->
+            <div v-for="n in 100" :key="n">
+              <ion-select-option v-if="n >= 5">
+                {{ n }}
+              </ion-select-option>
+            </div>
+          </ion-select>
         </ion-item>
       </ion-list>
     </template>
@@ -105,17 +93,16 @@
 </template>
 
 <script>
-import { IonInput, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton, IonRadio, IonRadioGroup, IonToggle, IonSelect, IonSelectOption } from '@ionic/vue'
+import { IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton, IonToggle, IonSelect, IonSelectOption } from '@ionic/vue'
 import { chords } from '../musicData.js';
 import { roots } from '../musicData.js';
 import { circleOfFifths } from '../musicData.js';
-import { chordSubOrders } from '../musicData.js';
 
 
 export default {
   name: 'ChordQuizSettings',
   components: {
-    IonInput, IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton, IonRadio, IonRadioGroup, IonToggle, IonSelect, IonSelectOption
+    IonLabel, IonList, IonListHeader,IonItemDivider, IonItem, IonButton, IonToggle, IonSelect, IonSelectOption
 
   },
   emits: ['start'],
@@ -132,7 +119,6 @@ export default {
         orderOfChords: '',
         startingKey: '',
         practiceChordsInOrder: false,
-        chordSubOrder: ''
       },
       optionsString: '',
       errors: [],
